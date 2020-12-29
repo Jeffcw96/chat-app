@@ -5,9 +5,5 @@ exports = module.exports = function (io) {
         io.join()
     });
 
-    io.on('sendMessage', (msg) => {
-        console.log("receive message, ready to send to front end")
-        console.log("msg", msg);
-        io.emit('message', msg)
-    })
+
 }

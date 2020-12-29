@@ -28,6 +28,11 @@ io.on('connection', (socket) => {
     console.log("hahaha")
     socket.emit('messageshaha', 'Welcome to the CHAT APP');
     socket.broadcast.emit('userJoin', 'A user has joined the chat');
+    socket.on('sendMessage', (msg) => {
+        console.log("receive message, ready to send to front end")
+        console.log("msg", msg);
+        io.emit('message', msg)
+    })
     require('./routes/chat')(socket);
     socket.on('disconnect', () => {
         console.log("disconnected");

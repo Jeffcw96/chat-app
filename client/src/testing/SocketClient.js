@@ -47,9 +47,9 @@ export default function SocketClient() {
     useEffect(() => {
         socket.on('message', msg => {
             console.log(msg);
-            setMessage([...msg, msg]);
+            setMessage(msg);
         })
-    })
+    }, [message])
 
 
     // async function Test() {

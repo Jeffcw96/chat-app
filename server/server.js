@@ -24,9 +24,11 @@ const io = require("socket.io")(server, {
     }
 });
 
-io.on('connect', (socket) => {
+io.on('connection', (socket) => {
     console.log("hahaha")
     socket.emit('messageshaha', 'Welcome to the CHAT APP');
+    socket.broadcast.emit('userJoin', 'A user has joined the chat');
+    require('./routes/chat')(socket);
     socket.on('disconnect', () => {
         console.log("disconnected");
     })

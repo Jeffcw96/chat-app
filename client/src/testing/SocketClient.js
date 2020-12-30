@@ -19,30 +19,28 @@ export default function SocketClient() {
     let query = (new URL(document.location)).searchParams;
     let username = query.get("user");
     let occupation = query.get("job");
+    let room = query.get("room");
     socket = io(ENDPOINT);
     useEffect(() => {
-
-
-
         socket.on('messageshaha', message => {
             console.log(message);
         })
 
-        socket.emit('join', { username, occupation }, (e) => {
+        socket.emit('join', { username, occupation, room }, (e) => {
             console.log("e", e)
         })
 
 
 
-        socket.on('userJoin', msg => {
-            console.log(msg)
-        })
+        // socket.on('userJoin', msg => {
+        //     console.log(msg)
+        // })
 
         return () => {
             socket.emit('disconnect');
             socket.off();
         }
-    }, [ENDPOINT, username, occupation]);
+    }, [ENDPOINT, username, occupation, room]);
 
     useEffect(() => {
         socket.on('message', msg => {
@@ -67,7 +65,8 @@ export default function SocketClient() {
 
     function sendMessage() {
         const msg = chatValue.current.value;
-        socket.emit('sendMessage', msg)
+        let room = query.get("room");
+        socket.emit('sendMessage', ({ msg, room }))
     }
 
     return (

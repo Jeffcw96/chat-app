@@ -4,12 +4,17 @@ const socketio = require('socket.io');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const router = require('./routes/main');
+const DB = require('./routes/db');
+require('dotenv').config()
+
+DB();
 
 const app = express();
 app.use(express.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(router);
+app.use("/auth", require('./routes/auth'))
 
 app.post("/testing", (req, res) => {
     console.log("body", req.body);
@@ -17,7 +22,7 @@ app.post("/testing", (req, res) => {
 })
 
 const server = http.createServer(app);
-const io = require("socket.io")(server, {
+const io = socketio(server, {
     cors: {
         origin: "http://localhost:3000",
         methods: ["GET", "POST"]
@@ -25,9 +30,8 @@ const io = require("socket.io")(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log("hahaha")
+    console.log(process.env.TEST)
     socket.emit('messageshaha', 'Welcome to the CHAT APP');
-    socket.broadcast.emit('userJoin', 'A user has joined the chat');
     socket.on('sendMessage', ({ msg, room }) => {
         console.log("receive message, ready to send to front end")
         console.log("msg", msg);
@@ -36,6 +40,7 @@ io.on('connection', (socket) => {
 
     socket.on('join', ({ username, occupation, room }, callback) => {
         console.log("username", username, "occupation", occupation);
+        socket.broadcast.emit('userJoin', `${username} has joined the chat`);
         socket.join(room)
     });
 

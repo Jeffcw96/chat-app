@@ -30,7 +30,6 @@ const io = socketio(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log(process.env.TEST)
     socket.emit('messageshaha', 'Welcome to the CHAT APP');
     socket.on('sendMessage', ({ msg, room }) => {
         console.log("receive message, ready to send to front end")

@@ -1,6 +1,6 @@
 import './App.css';
 import SocketClient from './components/SocketClient.js'
-import Login from './components/Login.js'
+import Login from './components/Main.js'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 function App() {

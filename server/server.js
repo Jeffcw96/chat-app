@@ -14,7 +14,8 @@ app.use(express.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(router);
-app.use("/auth", require('./routes/auth'))
+app.use("/auth", require('./routes/auth'));
+app.use("/social", require('./routes/social'));
 
 app.post("/testing", (req, res) => {
     console.log("body", req.body);

@@ -11,14 +11,18 @@ router.post('/register', [check('email', 'Please enter a valid email').isEmail()
 check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
     async (req, res) => {
         const errors = validationResult(req);
-        console.log("errors", errors)
+
         if (!errors.isEmpty()) {
             return res.status(400).json({ error: errors.array() })
         }
 
         const user = {}
         const { email, password } = req.body
-
+        const isExist = await User.findOne({ email })
+        if (isExist) {
+            res.status(400).json({ error: "User existed" })
+            return
+        }
         try {
             const salt = await bcrypt.genSalt(10);
             user.email = email;

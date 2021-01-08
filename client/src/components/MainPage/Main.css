@@ -28,7 +28,7 @@
 
 .bubble-container{
     position: absolute;
-    top: -145px;
+    top: -135px;
     left: 0px;
     padding: 20px 10px;
     display: flex;
@@ -43,29 +43,43 @@
 .bubble-container .bubble{
     position: initial;
     margin: 0 15px;
-    /* animation-name: bubbles-move;
-    
-    animation-timing-function: linear; */
+    background-color: rgb(58, 58, 58);
+    animation-name: bubbles-move;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards; 
+    opacity: 0;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
 } 
 
 
-/* .bubble-container .bubble:first-child{
+.bubble-container .bubble:first-child{
     animation-delay: 1s;
-    animation-duration: 2s;
+
 }
 
 .bubble-container .bubble:nth-child(2){
     animation-delay: 2s;
-    animation-duration: 2s;
 }
+
+.bubble-container .bubble:nth-child(3){
+    animation-delay: 3s;
+}
+
+.bubble-container .bubble:nth-child(4){
+    animation-delay: 4s;
+}
+
+.bubble-container .bubble:last-child{
+    animation-delay: 5s;
+}
+
 
 @keyframes bubbles-move{
     0%{
-       width: 20px;
-       height: 20px;
+        opacity: 0;
     }
-    100%{
-        width: 25px;
-        height: 25px;
+    25%{
+        opacity: 1;
     }
-}  */
+} 

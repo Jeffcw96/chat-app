@@ -7,12 +7,12 @@ router.post('/add', auth, async (req, res) => {
     try {
         console.log("add friend");
         const friend = {};
-        const { email, id } = req.body
+        const { email, id } = req.body;
         if (email === "" && id === "") {
             res.status(404).json({ error: "User Not Found" })
         }
 
-        let user
+        let user;
         if (email !== "") {
             user = await User.findOne({ email });
 

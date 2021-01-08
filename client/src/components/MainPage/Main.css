@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;700&display=swap');
+
+.main{
+    min-height: 100vh;
+    background-color: #FFE6C5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.form-container{
+    width: 60%;
+    background-color: #FCFCFC;
+    min-height: 62vh;
+    border: 2px solid #939191;
+    border-radius: 30px;
+    position: relative;
+    margin-top: 25px;
+}
+
+.bubble{
+    position: absolute;
+    border-radius: 100%;
+    border: 1px solid #939191;
+    background-color: #FCFCFC;
+}
+
+.bubble-container{
+    position: absolute;
+    top: -145px;
+    left: 0px;
+    padding: 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FCFCFC;
+    border: 1px solid #939191;
+    border-radius: 15px;
+    
+}
+
+.bubble-container .bubble{
+    position: initial;
+    margin: 0 15px;
+    /* animation-name: bubbles-move;
+    
+    animation-timing-function: linear; */
+} 
+
+
+/* .bubble-container .bubble:first-child{
+    animation-delay: 1s;
+    animation-duration: 2s;
+}
+
+.bubble-container .bubble:nth-child(2){
+    animation-delay: 2s;
+    animation-duration: 2s;
+}
+
+@keyframes bubbles-move{
+    0%{
+       width: 20px;
+       height: 20px;
+    }
+    100%{
+        width: 25px;
+        height: 25px;
+    }
+}  */

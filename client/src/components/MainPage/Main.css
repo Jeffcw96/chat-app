@@ -17,6 +17,13 @@
     border-radius: 30px;
     position: relative;
     margin-top: 25px;
+    padding: 50px;
+}
+
+.form-container h1{
+    font-weight: 700;
+    color: #0E70DF;
+    font-size: 2.5rem;
 }
 
 .bubble{
@@ -55,7 +62,6 @@
 
 .bubble-container .bubble:first-child{
     animation-delay: 1s;
-
 }
 
 .bubble-container .bubble:nth-child(2){
@@ -83,3 +89,24 @@
         opacity: 1;
     }
 } 
+
+.flex{
+    display: flex;
+}
+
+.flex .align-top{
+    align-items: flex-start;
+}
+
+.sign-up-in-form{
+    width: 30%;
+    padding: 25px 0px;
+}
+
+.flex .hori-between{
+    justify-content: space-between;
+}
+
+.flex .hori-center{
+    justify-content: center;
+}

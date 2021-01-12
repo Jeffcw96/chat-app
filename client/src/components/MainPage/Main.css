@@ -108,5 +108,28 @@
 }
 
 .flex .hori-center{
-    justify-content: center;
+    justify-content: space-around;
+}
+
+.sign-up-in-form h2{
+    padding: 5px ;
+    transition: all .3s;
+    cursor: pointer;
+    color: #8F8F8F;
+}
+
+.sign-up-in-form h2.active{
+    color:#238AFF;
+    border-bottom: 5px solid #7EA9FF;
+}
+
+.google-btn button{
+    background-color: #4285F4 !important;
+}
+.google-btn div{
+    background-color: white !important;
+}
+
+.google-btn span{
+    color:white !important;
 }

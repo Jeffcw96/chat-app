@@ -20,13 +20,14 @@ export default function Google({ label }) {
         console.log("failed response", res);
     }
     return (
-        <div>
+        <div className="google-btn">
             <GoogleLogin
                 clientId="453452665261-o94lt4oeikt9mfscc3vqul28e8r6fut5.apps.googleusercontent.com"
                 buttonText={label}
                 onSuccess={googleSuccess}
                 onFailure={googleFailed}
                 cookiePolicy={'single_host_origin'}
+                style={{ marginLeft: "200px" }}
             />
         </div>
     )

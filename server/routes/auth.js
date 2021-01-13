@@ -10,7 +10,7 @@ require('dotenv').config()
 router.post('/register', [check('email', 'Please enter a valid email').isEmail(),
 check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
     async (req, res) => {
-        const errors = validationResult(req);
+        const errors = await validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400).json({ error: errors.array() })
@@ -20,7 +20,7 @@ check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
         const { email, password } = req.body
         const isExist = await User.findOne({ email })
         if (isExist) {
-            res.status(400).json({ error: "User existed" })
+            res.status(400).json({ error: [{ msg: 'User Existed', param: 'cPassword' }] })
             return
         }
         try {
@@ -34,7 +34,7 @@ check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
             res.json({ status: 'Successful' });
         } catch (error) {
             console.error(error.message);
-            res.status(400).json({ error: 'DB error' })
+            res.status(400).json({ error: [{ msg: 'DB error', param: 'cPassword' }] })
         }
     })
 
@@ -51,13 +51,13 @@ check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
             let user = await User.findOne({ email })
 
             if (!user) {
-                res.status(400).json({ error: "Invalid Credentials" });
+                res.status(400).json({ error: [{ msg: "Invalid Credentials", param: 'errLogin' }] });
             }
 
             const isMatch = await bcrypt.compare(password, user.password)
 
             if (!isMatch) {
-                res.status(400).json({ error: "Invalid Credentials" });
+                res.status(400).json({ error: [{ msg: "Invalid Credentials", param: 'errLogin' }] });
             }
 
             const payload = {
@@ -73,7 +73,7 @@ check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
 
         } catch (error) {
             console.error(error.message);
-            res.status(400).json({ error: 'DB error' })
+            res.status(400).json({ error: [{ msg: "DB error", param: 'errLogin' }] })
         }
     })
 

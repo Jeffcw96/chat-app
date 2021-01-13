@@ -22,6 +22,7 @@ export default function Main() {
         }
     }
 
+
     return (
         <div className="main">
             <div className="form-container">
@@ -51,10 +52,16 @@ export default function Main() {
                                 <h3>Password:</h3>
                                 <input type="password" ref={password} />
                             </div>
-                            <div class="object">
-                                <h3>Confirm Password:</h3>
-                                <input type="password" ref={cPassword} />
-                            </div>
+                            {
+                                signUp ?
+                                    <div class="object">
+                                        <h3>Confirm Password:</h3>
+                                        <input type="password" ref={cPassword} />
+                                    </div>
+                                    : null
+
+                            }
+
                             <Google label={`${signIn ? "Sign In" : "Sign Up"} with Google`} />
                         </div>
                     </div>

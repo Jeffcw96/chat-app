@@ -133,3 +133,33 @@
 .google-btn span{
     color:white !important;
 }
+
+.action-container{
+    margin-top: 25px;
+}
+
+.action-container .object{
+    margin: 15px 0;
+}
+
+.action-container input{
+    border: initial;
+    border-bottom: 2px solid #707070;
+    transition: all 0.3s;
+    outline: none;
+    width: 80%;
+}
+
+.action-container h3{
+    color: #949CA5;
+    transition: all 0.3s;
+}
+
+.action-container h3.active{
+    color: black;   
+}
+
+.action-container input:focus{
+    border: initial;
+    border-bottom: 2px solid black;
+}

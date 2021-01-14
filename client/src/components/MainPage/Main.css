@@ -90,6 +90,13 @@
     }
 } 
 
+.logo-container{
+    width: 65%;
+}
+
+.logo-container img{
+    max-width: 75%;
+}
 .flex{
     display: flex;
 }
@@ -184,4 +191,79 @@
 .success-message{
     display: none;
     color: rgb(37, 252, 30);
+}
+
+.sign-btn{
+    width: 180px;
+    padding: 8px;
+    margin: 10px 0;
+    color: white;
+    border: 1px solid #EE4D2D;
+    border-radius: 5px;
+    outline: none;
+    background: #EE4D2D;
+    font-weight: bold;
+}
+
+@media only screen and (max-width:600px){
+    .form-container{
+        width: 95%;
+        padding: 25px;
+        margin-top: 30px;
+    }
+
+    .bubble{
+        display: none;
+    }
+
+    .bubble-container{
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .bubble-container .bubble{
+        display: block;
+    }
+
+    h1{
+        font-size: 1.8rem !important;
+    }
+
+    .flex{
+        display: block;
+    }
+
+    .logo-container, .sign-up-in-form{
+        width: 100%;
+    }
+
+    .logo-container img{
+        max-width: 100%;
+    }
+
+    .sign-up-in-form{
+        padding: 0;
+        margin-top: -30px
+    }
+    .flex.hori-center{
+        display: flex;
+    }
+
+    .action-container{
+        margin-top:0
+    }
+
+    .action-container .object {
+        margin: 10px 0;
+    }
+
+    .action-container h3 {
+       font-size: 1rem;
+    }
+
+    .sign-btn-container, .google-btn{
+        text-align: center;
+    }
+
 }

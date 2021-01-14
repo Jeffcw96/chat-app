@@ -31,7 +31,7 @@ check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
             const userDB = new User(user);
             await userDB.save()
 
-            res.json({ status: 'Successful' });
+            res.json({ status: 'Registration Successful' });
         } catch (error) {
             console.error(error.message);
             res.status(400).json({ error: [{ msg: 'DB error', param: 'cPassword' }] })
@@ -51,13 +51,13 @@ check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
             let user = await User.findOne({ email })
 
             if (!user) {
-                res.status(400).json({ error: [{ msg: "Invalid Credentials", param: 'errLogin' }] });
+                res.status(400).json({ error: [{ msg: "Invalid Credentials", param: 'password' }] });
             }
 
             const isMatch = await bcrypt.compare(password, user.password)
 
             if (!isMatch) {
-                res.status(400).json({ error: [{ msg: "Invalid Credentials", param: 'errLogin' }] });
+                res.status(400).json({ error: [{ msg: "Invalid Credentials", param: 'password' }] });
             }
 
             const payload = {
@@ -68,12 +68,12 @@ check('password', 'Please enter at least 6 characters').isLength({ min: 6 })],
 
             jwt.sign(payload, process.env.TOKEN, { expiresIn: 60 * 60 * 24 * 1 }, (err, token) => {
                 if (err) throw (err);
-                res.json({ token })
+                res.json({ token: token })
             })
 
         } catch (error) {
             console.error(error.message);
-            res.status(400).json({ error: [{ msg: "DB error", param: 'errLogin' }] })
+            res.status(400).json({ error: [{ msg: "DB error", param: 'password' }] })
         }
     })
 

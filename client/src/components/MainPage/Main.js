@@ -4,6 +4,7 @@ import './Main.css'
 import Bubble from './Bubble'
 import image from './logo.jpg'
 import axios from 'axios'
+import { setCookie } from '../Cookie/Cookie'
 
 export default function Main() {
     const URL = 'http://localhost:5000/';
@@ -33,6 +34,7 @@ export default function Main() {
         ResetInputAndMsg()
         dispatch({ type: 'RESET' })
     }, [signUp])
+
 
 
     function reducer(state, action) {
@@ -68,37 +70,68 @@ export default function Main() {
 
     function resetClass(e) {
         e.target.classList.remove('err');
+        dispatch({ type: 'RESET' })
     }
 
     async function Login() {
-        let user = {}
-        user.email = email.current.value;
-        user.password = password.current.value;
+        console.log("login")
+        try {
+            if (password.current.value === "") {
+                password.current.classList.add('err');
+                dispatch({ type: ERR.PASSWORD, payload: 'Please Fill in your Password' });
+                return
+            }
 
-        const response = await axios.post(URL + "auth/login", user);
-        const result = response.data;
-        console.log("result", result)
+            if (email.current.value === "") {
+                email.current.classList.add('err');
+                dispatch({ type: ERR.EMAIL, payload: 'Please Fill in your Email' });
+                return
+            }
+
+            let user = {}
+            user.email = email.current.value;
+            user.password = password.current.value;
+
+            const response = await axios.post(URL + "auth/login", user);
+            console.log("response", response)
+            const token = response.data.token;
+
+            setCookie("token", token, 3);
+
+        } catch (error) {
+            console.log(error.response);
+            const errorResult = error.response.data
+            password.current.classList.add('err');
+            errorResult.error.forEach(result => {
+                dispatch({ type: result.param, payload: result.msg })
+            });
+        }
     }
 
     async function Register() {
         try {
-            let user = {}
-            user.email = email.current.value;
-
             if (password.current.value !== cPassword.current.value) {
                 password.current.classList.add('err');
                 cPassword.current.classList.add('err');
                 dispatch({ type: ERR.REGISTER, payload: 'Please make sure the password is matched' })
-
                 return
             }
 
+            if (email.current.value === "") {
+                email.current.classList.add('err');
+                dispatch({ type: ERR.EMAIL, payload: 'Please Fill in your Email' })
+                return
+            }
+
+            let user = {}
+            user.email = email.current.value;
             user.password = cPassword.current.value;
             const response = await axios.post(URL + "auth/register", user);
-            console.log(response.data);
+
             if (response.status === 200) {
                 ResetInputAndMsg();
-                setSuccess(response.data);
+                cPassword.current.value = ""
+                setSuccess(response.data.status);
                 successMsg.current.classList.add('active');
                 cPassword.current.classList.remove('err');
             }
@@ -120,27 +153,27 @@ export default function Main() {
                 <Bubble size="20" top="-15" left="150" />
                 <Bubble size="40" top="-65" left="110" />
                 <div className="bubble-container">
-                    {Array(5).fill(5).map((size) => (
-                        <Bubble size={size} top="0" left="0" />
+                    {Array(5).fill(5).map((size, index) => (
+                        <Bubble size={size} top="0" left="0" key={index} />
                     ))}
                 </div>
                 <h1>CONNECT YOU & ME</h1>
                 <div className="flex align-top hori-between">
-                    <div style={{ width: '65%' }}>
-                        <img src={image} alt="logo image" style={{ maxWidth: '75%' }} />
+                    <div className="logo-container">
+                        <img src={image} alt="logo image" />
                     </div>
                     <div className="sign-up-in-form">
                         <div className="flex hori-center">
                             <h2 className={signIn ? "active" : ""} onClick={() => swapTab('signIn')}>SIGN IN</h2>
                             <h2 className={signUp ? "active" : ""} onClick={() => swapTab('signUp')}>SIGN UP</h2>
                         </div>
-                        <div class="action-container">
-                            <div class="object">
+                        <div className="action-container">
+                            <div className="object">
                                 <h3>Email:</h3>
                                 <input type="text" ref={email} onKeyDown={resetClass} />
                                 <p className="err-message">{state.email}</p>
                             </div>
-                            <div class="object">
+                            <div className="object">
                                 <h3>Password:</h3>
                                 <input type="password" ref={password} onKeyDown={resetClass} />
                                 <p className="err-message">{state.password}</p>
@@ -148,17 +181,20 @@ export default function Main() {
                             {
                                 signUp ?
                                     <>
-                                        <div class="object">
+                                        <div className="object">
                                             <h3>Confirm Password:</h3>
                                             <input type="password" ref={cPassword} onKeyDown={resetClass} />
-                                            <p className="err-message"></p>
+                                            <p className="err-message">{state.cPassword}</p>
+                                            <p ref={successMsg} className="success-message">{success}</p>
                                         </div>
-                                        <button onClick={Register}>Sign Up</button>
-                                        <p ref={successMsg} className="success-message">{success}</p>
+                                        <div className="sign-btn-container">
+                                            <button onClick={Register} className="sign-btn">Sign Up</button>
+                                        </div>
                                     </>
                                     :
-                                    <button onClick={Login}>Sign In</button>
-
+                                    <div className="sign-btn-container">
+                                        <button onClick={Login} className="sign-btn" >Sign In</button>
+                                    </div>
                             }
                             <Google label={`${signIn ? "Sign In" : "Sign Up"} with Google`} />
                         </div>

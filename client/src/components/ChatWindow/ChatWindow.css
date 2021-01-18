@@ -1,0 +1,17 @@
+.main-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-header, .chat-msg-container{
+    background-color: grey;
+}
+
+.chat-content{
+    background-color: lightgray;
+}
+
+.chat-msg{
+    background-color: white;
+}

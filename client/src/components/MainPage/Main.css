@@ -203,6 +203,7 @@
     outline: none;
     background: #EE4D2D;
     font-weight: bold;
+    cursor: pointer;
 }
 
 @media only screen and (max-width:600px){

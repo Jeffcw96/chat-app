@@ -16,6 +16,7 @@ app.use(cors());
 app.use(router);
 app.use("/auth", require('./routes/auth'));
 app.use("/social", require('./routes/social'));
+app.use("/user", require('./routes/user'));
 
 app.post("/testing", (req, res) => {
     console.log("body", req.body);

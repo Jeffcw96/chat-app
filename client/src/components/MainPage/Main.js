@@ -1,12 +1,14 @@
 import { React, useState, useRef, useEffect, useReducer } from 'react'
+import { useHistory } from 'react-router-dom'
 import Google from './Google'
 import './Main.css'
 import Bubble from './Bubble'
 import image from './logo.jpg'
 import axios from 'axios'
-import { setCookie } from '../Cookie/Cookie'
+import { setCookie, getCookie } from '../Cookie/Cookie'
 
 export default function Main() {
+    const history = useHistory()
     const URL = 'http://localhost:5000/';
     const ERR = {
         REGISTER: 'cPassword',
@@ -35,7 +37,19 @@ export default function Main() {
         dispatch({ type: 'RESET' })
     }, [signUp])
 
+    useEffect(() => {
+        const verifyToken = getCookie("token");
 
+        if (verifyToken !== "") {
+            proceedToChat()
+        }
+    }, [])
+
+    function proceedToChat() {
+        history.push({
+            pathname: '/chat'
+        })
+    }
 
     function reducer(state, action) {
         switch (action.type) {
@@ -97,6 +111,8 @@ export default function Main() {
             const token = response.data.token;
 
             setCookie("token", token, 3);
+
+            proceedToChat()
 
         } catch (error) {
             console.log(error.response);

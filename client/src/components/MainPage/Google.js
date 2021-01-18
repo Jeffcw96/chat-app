@@ -1,16 +1,27 @@
 import React from 'react'
 import { GoogleLogin } from 'react-google-login'
+import { setCookie } from '../Cookie/Cookie'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 export default function Google({ label }) {
+    const URL = 'http://localhost:5000/';
+    const history = useHistory()
     async function googleSuccess(response) {
         try {
             console.log("success response", response);
             const { id_token } = response.tokenObj;
             const googleAcc = { id_token };
 
-            const res = await axios.post('auth/googleLogin', googleAcc);
+            const res = await axios.post(URL + 'auth/googleLogin', googleAcc);
+            const token = res.data.token;
+
+            setCookie("token", token, 3);
             console.log("response", res)
+            history.push({
+                pathname: '/chat'
+            })
+
         } catch (error) {
             console.error(error)
         }

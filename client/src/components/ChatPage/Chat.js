@@ -5,6 +5,8 @@ import FriendList from '../Friends/FriendList'
 import { UserContext } from '../../context/UserContext'
 import { getCookie } from '../Cookie/Cookie'
 import axios from 'axios'
+import './Chat.css'
+
 
 export default function Chat() {
     let [user, setUser] = useState({})
@@ -36,10 +38,10 @@ export default function Chat() {
     }, [])
 
     return (
-        <>
+        <div className="main-container">
             {
                 auth ? (
-                    <div className="main-container" >
+                    <div className="chat-container">
                         < UserContext.Provider value={{ user, setUser }}>
                             <FriendList />
                             <ChatWindow />
@@ -49,7 +51,7 @@ export default function Chat() {
                     :
                     <div>forbidden access </div>
             }
-        </>
+        </div>
     )
 
 }

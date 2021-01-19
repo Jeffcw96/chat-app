@@ -6,7 +6,7 @@ import './ChatWindow.css'
 
 export default function Chat() {
     return (
-        <div>
+        <div style={{ width: '70%' }}>
             <Header />
             <Content />
             <Message />

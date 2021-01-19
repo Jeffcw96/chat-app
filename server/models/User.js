@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema({
     },
     picture: {
         type: String
+    },
+    chatTicket: {
+        type: Array
     }
 })
 

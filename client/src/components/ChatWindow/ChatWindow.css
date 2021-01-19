@@ -1,9 +1,3 @@
-.main-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .chat-header, .chat-msg-container{
     background-color: grey;
 }
@@ -14,4 +8,8 @@
 
 .chat-msg{
     background-color: white;
+}
+
+.chat-header{
+    height: 60px;
 }

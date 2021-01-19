@@ -1,0 +1,15 @@
+.main-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.chat-container{
+    width: 70%;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    border: 1px solid grey;
+    border-radius: 10px;
+}

@@ -15,6 +15,9 @@ const UserSchema = new mongoose.Schema({
     friends: {
         type: Array
     },
+    request: {
+        type: Array
+    },
     bio: {
         type: String,
     },

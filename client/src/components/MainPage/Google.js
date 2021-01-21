@@ -16,7 +16,7 @@ export default function Google({ label }) {
             const res = await axios.post(URL + 'auth/googleLogin', googleAcc);
             const token = res.data.token;
 
-            setCookie("token", token, 3);
+            setCookie("token", token, 0.8);
             console.log("response", res)
             history.push({
                 pathname: '/chat'

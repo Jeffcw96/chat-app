@@ -110,7 +110,7 @@ export default function Main() {
             console.log("response", response)
             const token = response.data.token;
 
-            setCookie("token", token, 3);
+            setCookie("token", token, 0.8);
 
             proceedToChat()
 

@@ -1,15 +1,14 @@
-.chat-header, .chat-msg-container{
+.chat-header{
     background-color: grey;
+    height: 8%;
 }
 
 .chat-content{
     background-color: lightgray;
+    height: 84%;
 }
 
-.chat-msg{
-    background-color: white;
-}
-
-.chat-header{
-    height: 60px;
+.chat-msg, .chat-msg-container{
+    background-color: rgb(210, 255, 255);
+    height: 8%;
 }

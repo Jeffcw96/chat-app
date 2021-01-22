@@ -32,6 +32,7 @@ const io = socketio(server, {
 });
 
 io.on('connection', (socket) => {
+    let timer = null
     socket.emit('messageshaha', 'Welcome to the CHAT APP');
     socket.on('sendMessage', ({ msg, room }) => {
         console.log("receive message, ready to send to front end")
@@ -40,6 +41,11 @@ io.on('connection', (socket) => {
     })
 
     socket.on('join', ({ username, occupation, room }, callback) => {
+        let i = 0;
+        timer = setInterval(() => {
+            i++
+            console.log(i + "seconds");
+        }, 1000)
         console.log("username", username, "occupation", occupation);
         socket.broadcast.emit('userJoin', `${username} has joined the chat`);
         socket.join(room)
@@ -51,6 +57,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
+        clearInterval(timer)
         console.log("disconnected");
     })
 });

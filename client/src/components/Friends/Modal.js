@@ -1,9 +1,31 @@
-import React, { useRef } from 'react'
+import React, { useRef, useContext } from 'react'
 import chat from './chat.svg'
+import axios from 'axios'
+import { UserContext } from '../../context/UserContext'
 
 export default function Modal({ show, setShow, friendslist }) {
+    const URL = 'http://localhost:5000/';
     const closeModal = useRef();
     const modal = useRef();
+    const searchFriend = useRef();
+    const { user, setUser } = useContext(UserContext)
+
+    async function addFriend() {
+        try {
+            console.log("add friedn")
+            let jsonFriend = {}
+            jsonFriend.searchParam = searchFriend.current.value;
+
+            const response = await axios.post(URL + "social/request", jsonFriend, {
+                headers: {
+                    "Authorization": "Bearer " + user.token
+                }
+            })
+            console.log("response", response)
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
     console.log("friend list", friendslist)
     return (
         <div>
@@ -14,6 +36,10 @@ export default function Modal({ show, setShow, friendslist }) {
                         <h2>Friends List</h2>
                     </div>
                     <div className="modal-body">
+                        <div>
+                            <input type="text" ref={searchFriend} />
+                            <button onClick={() => addFriend()}>Add</button>
+                        </div>
                         {friendslist.map(friend => (
                             <div className="contact-list" key={friend.id}>
                                 <div className="photo">

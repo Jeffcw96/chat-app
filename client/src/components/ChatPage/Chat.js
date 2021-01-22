@@ -23,7 +23,7 @@ export default function Chat() {
                     "Authorization": "Bearer " + token
                 }
             })
-
+            response.data.token = token
             setUser(response.data)
             setAuth(true)
 

@@ -9,6 +9,7 @@ function App() {
     <Router>
       <Route path="/" exact component={Main} />
       <Route path="/chat" component={Chat} />
+      <Route path="/test" component={SocketClient} />
     </Router>
   )
 }

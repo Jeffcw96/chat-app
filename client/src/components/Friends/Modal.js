@@ -26,7 +26,15 @@ export default function Modal({ show, setShow, friendslist }) {
             console.error(error.message)
         }
     }
-    console.log("friend list", friendslist)
+
+    async function startChat(user, ticket) {
+        try {
+            console.log("user", user, 'ticket', ticket);
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
     return (
         <div>
             <div ref={modal} className="modal" style={show ? { display: 'block' } : { display: 'none' }}>
@@ -40,22 +48,31 @@ export default function Modal({ show, setShow, friendslist }) {
                             <input type="text" ref={searchFriend} />
                             <button onClick={() => addFriend()}>Add</button>
                         </div>
-                        {friendslist.map(friend => (
-                            <div className="contact-list" key={friend.id}>
-                                <div className="photo">
-                                    <img src={friend.picture} alt="contact profile pic" />
+                        {friendslist !== null ?
+                            friendslist.map((friend, ind) => (
+                                <div className="contact-list" key={ind}>
+                                    <div className="photo">
+                                        <img src={friend.picture} alt="contact profile pic" />
+                                    </div>
+                                    <div className="info">
+                                        {friend.name === null || friend.name === "" ?
+                                            null
+                                            :
+                                            <>
+                                                <p>{friend.email}</p>
+                                                <p>{friend.bio}</p>
+                                            </>
+
+                                        }
+                                    </div>
+                                    <div className="action" onClick={() => startChat(friend._id, friend.chatTicket[0].ticket)}>
+                                        <img src={chat} alt="let's chat" />
+                                    </div>
                                 </div>
-                                <div className="info">
-                                    {friend.name === null || friend.name === "" ?
-                                        <p>{friend.email}</p> :
-                                        <p>{friend.bio}</p>
-                                    }
-                                </div>
-                                <div className="action">
-                                    <img src={chat} alt="let's chat" />
-                                </div>
-                            </div>
-                        ))}
+
+                            ))
+                            : null
+                        }
                     </div>
                     <div className="modal-footer">
                         <h3>Modal Footer</h3>

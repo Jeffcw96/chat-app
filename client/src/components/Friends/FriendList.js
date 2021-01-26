@@ -1,15 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useReducer, useEffect } from 'react'
 import User from './User'
 import { UserContext } from '../../context/UserContext'
 import userImg from './user.svg'
 import contact from './contact.svg'
 import './FriendList.css'
 import Modal from './Modal'
-import { CHATS } from './Dummy'
 import axios from 'axios'
 
 export default function FriendList() {
     const URL = 'http://localhost:5000/';
+    const [chatList, dispatch] = useReducer(reducer, []);
     const { user, setUser } = useContext(UserContext)
     let [show, setShow] = useState(false)
     let [friends, setFriends] = useState(null)
@@ -20,6 +20,24 @@ export default function FriendList() {
         imageSrc = userImg;
     }
 
+
+
+    function reducer(chatList, action) {
+        switch (action.type) {
+            case "CREATE":
+                console.log("state", chatList);
+                let isChating = chatList.some(chatRecord => {
+                    console.log(chatRecord)
+                })
+
+                console.log("isChating", isChating);
+                if (!isChating) {
+                    return [...chatList, action.payload]
+                }
+            default:
+                return chatList
+        }
+    }
     async function ShowFriendList() {
         try {
             let jsonFriend = {}
@@ -38,7 +56,6 @@ export default function FriendList() {
         }
     }
 
-
     return (
         <div style={{ width: '30%' }}>
             <div style={{ height: '8%' }}>
@@ -51,11 +68,8 @@ export default function FriendList() {
                     </div>
                 </div>
             </div>
-            <Modal show={show} setShow={setShow} friendslist={friends} />
-            {  CHATS.map(chat => (
-                <User info={chat} key={chat.id} />
-            ))}
-
+            <Modal show={show} setShow={setShow} friendslist={friends} dispatch={dispatch} />
+            <User chatList={chatList} />
         </div>
     )
 }

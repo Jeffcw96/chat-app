@@ -109,11 +109,9 @@ router.post('/list', auth, async (req, res) => {
         let users = []
         for (let id of ids) {
             let user = await User.findById(id).select("-password -friends -request");
-            console.log("user before", user)
             user.chatTicket = user.chatTicket.find(chat => {
                 return chat.user === req.user.id
             })
-            console.log("user after", user)
             users.push(user)
         }
         res.json({ users: users })

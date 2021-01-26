@@ -3,7 +3,7 @@ import chat from './chat.svg'
 import axios from 'axios'
 import { UserContext } from '../../context/UserContext'
 
-export default function Modal({ show, setShow, friendslist }) {
+export default function Modal({ show, setShow, friendslist, dispatch }) {
     const URL = 'http://localhost:5000/';
     const closeModal = useRef();
     const modal = useRef();
@@ -27,9 +27,10 @@ export default function Modal({ show, setShow, friendslist }) {
         }
     }
 
-    async function startChat(user, ticket) {
+    async function startChat(friend) {
         try {
-            console.log("user", user, 'ticket', ticket);
+            console.log("friend", friend)
+            dispatch({ type: 'CREATE', payload: friend })
         } catch (error) {
             console.error(error.message)
         }
@@ -65,7 +66,7 @@ export default function Modal({ show, setShow, friendslist }) {
 
                                         }
                                     </div>
-                                    <div className="action" onClick={() => startChat(friend._id, friend.chatTicket[0].ticket)}>
+                                    <div className="action" onClick={() => startChat(friend)}>
                                         <img src={chat} alt="let's chat" />
                                     </div>
                                 </div>

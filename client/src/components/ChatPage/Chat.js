@@ -6,14 +6,25 @@ import { UserContext } from '../../context/UserContext'
 import { getCookie } from '../Cookie/Cookie'
 import axios from 'axios'
 import './Chat.css'
+import io from 'socket.io-client';
+
 
 
 export default function Chat() {
-    let [user, setUser] = useState({})
-    let [auth, setAuth] = useState(false)
+    let socket;
+    let [user, setUser] = useState({});
+    let [active, setActive] = useState({});
+    let [chat, setChat] = useState([])
+    let [auth, setAuth] = useState(false);
     const location = useLocation();
     const token = getCookie('token');
     const URL = 'http://localhost:5000/';
+    socket = io(URL);
+
+    function objectIsEmpty(obj) {
+        for (let i in obj) return false;
+        return true
+    }
 
     async function getUserInfo() {
         console.log("??")
@@ -37,12 +48,59 @@ export default function Chat() {
         getUserInfo()
     }, [])
 
+    useEffect(async () => {
+        if (objectIsEmpty(active)) {
+            return
+        }
+
+        console.log("active user", active);
+        console.log("chat ticket", active.chatTicket[0].ticket);
+        const chatTicket = active.chatTicket[0].ticket;
+        const host = user._id;
+        const receiver = active._id
+
+        socket.emit('join', { chatTicket, host, receiver }, (e) => {
+            console.log("e", e)
+        })
+
+
+
+        return () => {
+            socket.emit('disconnect');
+            socket.off();
+        }
+
+    }, [active])
+
+
+
+
+    useEffect(() => {
+        socket.on('userJoin', msg => {
+            setChat([...chat, msg])
+            console.log("msg", msg)
+
+        })
+
+        socket.on('message', msg => {
+            console.log(msg);
+            setChat([...msg, msg]);
+        })
+    }, [chat])
+
+    // function sendMessage() {
+    //     const msg = chatValue.current.value;
+    //     const chatTicket = active.chatTicket[0].ticket;
+    //     socket.emit('sendMessage', ({ msg, room }))
+    // }
+
+
     return (
         <div className="main-container">
             {
                 auth ? (
                     <div className="chat-container">
-                        < UserContext.Provider value={{ user, setUser }}>
+                        < UserContext.Provider value={{ user: user, active: active, chat: chat, setUser, setActive, setChat }}>
                             <FriendList />
                             <ChatWindow />
                         </UserContext.Provider >

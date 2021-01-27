@@ -3,33 +3,26 @@ import { UserContext } from '../../context/UserContext'
 import userImg from './user.svg'
 
 export default function User({ chatList }) {
-    const { user, setUser } = useContext(UserContext)
-    // const lastHistory = info.conversation[info.conversation.length - 1];
-    // let lastUser = lastHistory.user;
-    // const lastChat = lastHistory.chat;
-    // if (user.email === lastUser) {
-    //     lastUser = "You"
-    // }
+    const { user, setUser } = useContext(UserContext);
+    const { active, setActive } = useContext(UserContext)
     console.log("user", user)
     console.log("In user chat list", chatList)
 
+    function activeChat(chat) {
+        setActive(chat)
+    }
 
     return (
-
-        chatList.map(test => (
-            <p>{test.email}</p>
+        chatList.map((chat, ind) => (
+            <div className='actions-container friends' onClick={() => activeChat(chat)} key={ind}>
+                <div className="friends-picture">
+                    <img src={chat.picture === "" || chat.picture === undefined ? userImg : chat.picture} alt="friend profile" />
+                </div>
+                <div className="friends-chatlist-info">
+                    <p>{chat.name === "" || chat.name === undefined ? chat.email : chat.name}</p>
+                    {/* <p>{lastUser} : {lastChat}</p>  */}
+                </div>
+            </div>
         ))
-
-
     )
 }
-
-{/* <div className="actions-container friends">
-<div className="friends-picture">
-<img src={info.picture === "" ? userImg : info.picture} alt="friend profile" /> 
-</div>
-<div>
-   <p>{chat.name}</p>
-   <p>{lastUser} : {lastChat}</p> 
-</div> 
-</div> */}

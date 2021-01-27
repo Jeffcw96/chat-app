@@ -13,24 +13,18 @@ export default function FriendList() {
     const { user, setUser } = useContext(UserContext)
     let [show, setShow] = useState(false)
     let [friends, setFriends] = useState(null)
-    console.log("user", user)
     let imageSrc = user.image;
 
     if (imageSrc === "" || imageSrc === undefined) {
         imageSrc = userImg;
     }
 
-
-
     function reducer(chatList, action) {
         switch (action.type) {
             case "CREATE":
-                console.log("state", chatList);
                 let isChating = chatList.some(chatRecord => {
-                    console.log(chatRecord)
+                    return chatRecord._id === action.payload._id
                 })
-
-                console.log("isChating", isChating);
                 if (!isChating) {
                     return [...chatList, action.payload]
                 }
@@ -59,7 +53,7 @@ export default function FriendList() {
     return (
         <div style={{ width: '30%' }}>
             <div style={{ height: '8%' }}>
-                <div className="actions-container ">
+                <div className="actions-container">
                     <div className="avatar-container">
                         <img src={imageSrc} alt="profile avatar" style={{ maxWidth: '100%' }} />
                     </div>

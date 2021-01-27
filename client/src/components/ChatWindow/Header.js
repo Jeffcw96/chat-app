@@ -1,9 +1,10 @@
-import React from 'react'
-
+import React, { useContext } from 'react'
+import { UserContext } from '../../context/UserContext'
 export default function Header() {
+    const { active, setActive } = useContext(UserContext)
     return (
         <div className="chat-header">
-            <p>Friend's Name here</p>
+            <p>{active.email}</p>
         </div>
     )
 }

@@ -40,15 +40,16 @@ io.on('connection', (socket) => {
         io.to(room).emit('message', msg);
     })
 
-    socket.on('join', ({ username, occupation, room }, callback) => {
-        let i = 0;
-        timer = setInterval(() => {
-            i++
-            console.log(i + "seconds");
-        }, 1000)
-        console.log("username", username, "occupation", occupation);
-        socket.broadcast.emit('userJoin', `${username} has joined the chat`);
-        socket.join(room)
+    socket.on('join', ({ chatTicket, host, receiver }, callback) => {
+        // let i = 0;
+        // timer = setInterval(() => {
+        //     i++
+        //     console.log(i + "seconds");
+        // }, 1000)
+
+        console.log("chatTicket", chatTicket, "host", host, "receiver", receiver);
+        socket.broadcast.emit('userJoin', `${host} has joined the chat`);
+        socket.join(chatTicket)
     });
 
     // Listen for new messages
@@ -57,7 +58,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        clearInterval(timer)
+        // clearInterval(timer)
         console.log("disconnected");
     })
 });

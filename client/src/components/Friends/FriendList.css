@@ -16,12 +16,24 @@
 
 .actions-container.friends{
     justify-content: flex-start;
-  
+    border-top: 1px solid #dbdbdb;
+}
+
+.actions-container.friends.active{
+  background: yellow;
+}
+
+.actions-container.friends:last-child{
+  border-bottom: 1px solid #dbdbdb;
 }
 
 .friends-picture{
-    width: 30%;
+    width: 20%;
     margin-right: 10px;
+}
+
+.friends-chatlist-info{
+  width: 80%;
 }
 
 .friends-picture img{

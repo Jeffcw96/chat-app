@@ -31,13 +31,21 @@ const io = socketio(server, {
     }
 });
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     let timer = null
     socket.emit('messageshaha', 'Welcome to the CHAT APP');
-    socket.on('sendMessage', ({ msg, room }) => {
-        console.log("receive message, ready to send to front end")
+
+    socket.on('sendMessage', ({ msg, chatTicket, userId }) => {
+        const current = new Date();
+        const msgDateTime = current.getFullYear() + "/" + current.getMonth() + 1 + "/" + current.getDate() + " " + current.getHours() + ":" + current.getMinutes();
+        let msgData = {}
+        msgData.user = userId;
+        msgData.message = msg;
+        msgData.time = msgDateTime;
+
         console.log("msg", msg);
-        io.to(room).emit('message', msg);
+
+        io.to(chatTicket).emit('message', msgData);
     })
 
     socket.on('join', ({ chatTicket, host, receiver }, callback) => {
@@ -46,6 +54,7 @@ io.on('connection', (socket) => {
         //     i++
         //     console.log(i + "seconds");
         // }, 1000)
+
 
         console.log("chatTicket", chatTicket, "host", host, "receiver", receiver);
         socket.broadcast.emit('userJoin', `${host} has joined the chat`);

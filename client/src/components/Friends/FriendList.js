@@ -10,7 +10,7 @@ import axios from 'axios'
 export default function FriendList() {
     const URL = 'http://localhost:5000/';
     const [chatList, dispatch] = useReducer(reducer, []);
-    const { user, setUser } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext);
     let [show, setShow] = useState(false)
     let [friends, setFriends] = useState(null)
     let imageSrc = user.image;

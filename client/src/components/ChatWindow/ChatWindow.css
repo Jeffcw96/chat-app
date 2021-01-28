@@ -11,5 +11,22 @@
 .chat-msg-container{
     background-color: rgb(210, 255, 255);
     height: 8%;
-    padding: 15px;
+    padding: 5px;
+}
+
+.chat-msg{
+    display: flex;
+    height: 100%;
+}
+
+.chat-msg input[type=text]{
+    width: 80%;
+    height: 100%;
+    margin-right: 15px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.chat-msg button{
+    width: 10%;
 }

@@ -31,6 +31,7 @@ export default function Modal({ show, setShow, friendslist, dispatch }) {
         try {
             console.log("friend", friend)
             dispatch({ type: 'CREATE', payload: friend })
+            setShow(false)
         } catch (error) {
             console.error(error.message)
         }

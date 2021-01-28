@@ -16,6 +16,8 @@ export default function Chat() {
     let [active, setActive] = useState({});
     let [chat, setChat] = useState([])
     let [auth, setAuth] = useState(false);
+    let [isChat, setIsChat] = useState();
+
     const location = useLocation();
     const token = getCookie('token');
     const URL = 'http://localhost:5000/';
@@ -77,16 +79,19 @@ export default function Chat() {
 
     useEffect(() => {
         socket.on('userJoin', msg => {
-            setChat([...chat, msg])
+            // setChat([...chat, msg])
             console.log("msg", msg)
 
         })
 
-        socket.on('message', msg => {
-            console.log(msg);
-            setChat([...msg, msg]);
+        socket.on('message', (msgData) => {
+
+            console.log("message", msgData);
+            setChat((prevChat) => {
+                return [...prevChat, msgData]
+            });
         })
-    }, [chat])
+    })
 
     // function sendMessage() {
     //     const msg = chatValue.current.value;
@@ -100,7 +105,7 @@ export default function Chat() {
             {
                 auth ? (
                     <div className="chat-container">
-                        < UserContext.Provider value={{ user: user, active: active, chat: chat, setUser, setActive, setChat }}>
+                        < UserContext.Provider value={{ user: user, active: active, chat: chat, isChat: isChat, setIsChat, setUser, setActive, setChat }}>
                             <FriendList />
                             <ChatWindow />
                         </UserContext.Provider >

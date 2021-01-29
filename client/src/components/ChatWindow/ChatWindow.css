@@ -6,6 +6,7 @@
 .chat-content{
     background-color: lightgray;
     height: 84%;
+    overflow-y: scroll;
 }
 
 .chat-msg-container{

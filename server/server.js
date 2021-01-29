@@ -66,9 +66,10 @@ io.on('connection', async (socket) => {
         io.in(room).emit('testing', data);
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (e) => {
         // clearInterval(timer)
-        console.log("disconnected");
+
+        console.log("disconnected", e);
     })
 });
 

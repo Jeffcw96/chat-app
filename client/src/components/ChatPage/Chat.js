@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import { useHistory } from 'react-router-dom'
 import ChatWindow from '../ChatWindow/ChatWindow'
 import FriendList from '../Friends/FriendList'
 import { UserContext } from '../../context/UserContext'
-import { getCookie } from '../Cookie/Cookie'
+import { getCookie, deleteCookie } from '../Cookie/Cookie'
 import axios from 'axios'
 import './Chat.css'
 import io from 'socket.io-client';
@@ -18,7 +18,8 @@ export default function Chat() {
     let [auth, setAuth] = useState(false);
     let [isChat, setIsChat] = useState();
 
-    const location = useLocation();
+    const lastMsgRef = useRef();
+    const history = useHistory()
     const token = getCookie('token');
     const URL = 'http://localhost:5000/';
     socket = io(URL);
@@ -43,6 +44,10 @@ export default function Chat() {
         } catch (error) {
             console.error("Failed verify user")
             setAuth(false)
+            deleteCookie("token")
+            history.push({
+                pathname: "/"
+            })
         }
     }
 
@@ -68,7 +73,7 @@ export default function Chat() {
 
 
         return () => {
-            socket.emit('disconnect', { chatHistory: "hmmm" });
+            socket.emit('disconnect');
             socket.off();
         }
 
@@ -85,13 +90,20 @@ export default function Chat() {
         })
 
         socket.on('message', (msgData) => {
-
             console.log("message", msgData);
             setChat((prevChat) => {
                 return [...prevChat, msgData]
             });
         })
     })
+
+    useEffect(() => {
+        if (lastMsgRef.current) {
+            lastMsgRef.current.scrollIntoView({ smooth: true })
+        }
+
+    }, [lastMsgRef.current])
+
 
     // function sendMessage() {
     //     const msg = chatValue.current.value;
@@ -105,7 +117,7 @@ export default function Chat() {
             {
                 auth ? (
                     <div className="chat-container">
-                        < UserContext.Provider value={{ user: user, active: active, chat: chat, isChat: isChat, setIsChat, setUser, setActive, setChat }}>
+                        < UserContext.Provider value={{ user: user, active: active, chat: chat, isChat: isChat, setIsChat, setUser, setActive, setChat, lastMsgRef }}>
                             <FriendList />
                             <ChatWindow />
                         </UserContext.Provider >

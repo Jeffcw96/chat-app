@@ -30,21 +30,23 @@ const io = socketio(server, {
         methods: ["GET", "POST"]
     }
 });
-
+let chats = [];
+let ticket;
 io.on('connection', async (socket) => {
     let timer = null
     socket.emit('messageshaha', 'Welcome to the CHAT APP');
 
     socket.on('sendMessage', ({ msg, chatTicket, userId }) => {
+
         const current = new Date();
         const msgDateTime = current.getFullYear() + "/" + current.getMonth() + 1 + "/" + current.getDate() + " " + current.getHours() + ":" + current.getMinutes();
         let msgData = {}
         msgData.user = userId;
         msgData.message = msg;
         msgData.time = msgDateTime;
-
+        chats.push(msgData)
         console.log("msg", msg);
-
+        console.log("total msg chat", chats)
         io.to(chatTicket).emit('message', msgData);
     })
 
@@ -54,8 +56,7 @@ io.on('connection', async (socket) => {
         //     i++
         //     console.log(i + "seconds");
         // }, 1000)
-
-
+        ticket = chatTicket
         console.log("chatTicket", chatTicket, "host", host, "receiver", receiver);
         socket.broadcast.emit('userJoin', `${host} has joined the chat`);
         socket.join(chatTicket)
@@ -66,10 +67,11 @@ io.on('connection', async (socket) => {
         io.in(room).emit('testing', data);
     });
 
-    socket.on('disconnect', (e) => {
+    socket.on('disconnect', () => {
         // clearInterval(timer)
+        //get the chats value and add to mongo db
+        console.log("disconnect chat", chats)
 
-        console.log("disconnected", e);
     })
 });
 
